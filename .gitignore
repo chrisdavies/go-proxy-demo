@@ -1,0 +1,4 @@
+notes/
+dist/
+*.sqlite*
+*.db*

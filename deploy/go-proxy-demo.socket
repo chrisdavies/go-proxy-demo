@@ -1,0 +1,22 @@
+# go-proxy-demo.socket
+#
+# Install to
+#
+#   /lib/systemd/system/go-proxy-demo.socket
+#
+# Then run:
+#
+#   sudo systemctl enable --now go-proxy-demo.socket
+#
+#
+
+[Unit]
+Description = Proxy v1 and v2
+
+[Socket]
+ListenStream = 80
+ListenStream = 443
+Service = go-proxy-demo.service
+
+[Install]
+WantedBy = sockets.target

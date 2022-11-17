@@ -1,0 +1,29 @@
+# go-proxy-service.service
+#
+# Install to:
+#
+#   /lib/systemd/system/go-proxy-service.service
+#
+# Then run:
+#
+#   sudo systemctl enable --now go-proxy-service.service
+#
+# Replace "example" with the appropriate user
+#
+
+[Unit]
+Description = The app that proxies http requests to v1 or v2
+After       = network.target
+
+[Service]
+Type=simple
+User=example
+WorkingDirectory=/home/example/go-proxy-service
+EnvironmentFile=/home/example/go-proxy-service/.env
+ExecStart=/bin/bash -c 'exec flock --nonblock ./go-proxy-service.lock ./go-proxy-service'
+KillMode=mixed
+Restart=on-failure
+
+[Install]
+WantedBy = multi-user.target
+
