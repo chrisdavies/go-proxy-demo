@@ -10,6 +10,10 @@
 #
 # Replace "example" with the appropriate user
 #
+# Note: the use of "flock" is to prevent multiple instances from running
+# simultaneously. It may not be necessary, but I'm not familiar with a way to
+# accomplish this with systemd.
+#
 
 [Unit]
 Description = The app that proxies http requests to v1 or v2
