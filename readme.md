@@ -45,6 +45,10 @@ I haven't actually tested this project. It's a modified version of a private pro
   - [reflex](https://github.com/cespare/reflex) for rebuilding on save
   - systemd (so, basically, a modern Linux distro)
 
+## SQLite errors
+
+When running this through a benchmark, I noticed that SQLite causes errors under heavy load when writes are made concurrently. The solution (in the private project) was to use SQLite as a store only and keep the rules in memory. All SQLite access was managed via a channel as part of the solution.
+
 ## License
 
 [MIT](https://mit-license.org/)
