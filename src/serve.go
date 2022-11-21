@@ -28,14 +28,16 @@ func pipeConn(conn net.Conn, toPort int, stats *Stats) {
 		return
 	}
 	defer dest.Close()
-	go func() {
-		if _, err := io.Copy(dest, conn); err != nil && err != net.ErrClosed {
-			log.Default().Println("[error] tunnel to server:", err)
+	copy := func(w io.WriteCloser, r io.ReadCloser) {
+		if _, err := io.Copy(w, r); err != nil && err != net.ErrClosed {
+			log.Default().Println("[error] pipe:", err)
 		}
-	}()
-	if _, err := io.Copy(conn, dest); err != nil && err != net.ErrClosed {
-		log.Default().Println("[error] tunnel to client:", err)
+		w.Close()
+		r.Close()
 	}
+
+	go copy(dest, conn)
+	copy(conn, dest)
 }
 
 // tunnelSystemd listens on fd (a systemd-specified file descriptor) and
